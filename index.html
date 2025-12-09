@@ -1,1 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Jacksmith</title>
+  <!-- Ruffle emulator from CDN -->
+  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+    #loading-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-family: Arial, sans-serif;
+      z-index: 9999;
+    }
+    .loading-bar-bg {
+      width: 60%;
+      height: 20px;
+      background: #444;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    .loading-bar-fill {
+      width: 0%;
+      height: 100%;
+      background: #29a8ff;
+      transition: width 0.2s linear;
+    }
+    #game-container {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+    }
+    ruffle-player {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="loading-screen">
+    <h1>Loading Jacksmith...</h1>
+    <div class="loading-bar-bg">
+      <div class="loading-bar-fill" id="bar"></div>
+    </div>
+  </div>
 
+  <div id="game-container">
+    <ruffle-player id="player" data-autoplay="true">
+      <source src="jacksmith_v2.swf" type="application/x-shockwave-flash" />
+    </ruffle-player>
+  </div>
+
+  <script>
+    // Fake Unity-style loading bar
+    let pct = 0;
+    const bar = document.getElementById("bar");
+    const loadingScreen = document.getElementById("loading-screen");
+
+    let interval = setInterval(() => {
+      pct += Math.random() * 10;
+      if (pct > 100) pct = 100;
+      bar.style.width = pct + "%";
+      if (pct >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          loadingScreen.style.display = "none";
+        }, 300);
+      }
+    }, 150);
+  </script>
+</body>
+</html>
