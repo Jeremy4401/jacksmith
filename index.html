@@ -3,17 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <title>Jacksmith</title>
-  <!-- Ruffle emulator from CDN -->
+
+  <!-- RUFFLE FLASH EMULATOR -->
   <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
       width: 100%;
+      height: 100%;
       overflow: hidden;
-      background: #000;
+      background: black;
+      font-family: Arial, sans-serif;
     }
+
+    /* UNITY-STYLE LOADING SCREEN */
     #loading-screen {
       position: fixed;
       top: 0; left: 0;
@@ -24,9 +29,9 @@
       justify-content: center;
       align-items: center;
       color: white;
-      font-family: Arial, sans-serif;
       z-index: 9999;
     }
+
     .loading-bar-bg {
       width: 60%;
       height: 20px;
@@ -35,55 +40,57 @@
       overflow: hidden;
       margin-top: 20px;
     }
+
     .loading-bar-fill {
       width: 0%;
       height: 100%;
       background: #29a8ff;
-      transition: width 0.2s linear;
+      transition: width 0.25s linear;
     }
-    #game-container {
-      position: absolute;
-      top: 0; left: 0;
+
+    /* FULLSCREEN GAME */
+    ruffle-player {
       width: 100vw;
       height: 100vh;
-    }
-    ruffle-player {
-      width: 100%;
-      height: 100%;
+      display: block;
     }
   </style>
 </head>
+
 <body>
-  <div id="loading-screen">
-    <h1>Loading Jacksmith...</h1>
-    <div class="loading-bar-bg">
-      <div class="loading-bar-fill" id="bar"></div>
-    </div>
+
+<!-- UNITY LOADING SCREEN -->
+<div id="loading-screen">
+  <h1>Loading Jacksmith...</h1>
+  <div class="loading-bar-bg">
+    <div class="loading-bar-fill" id="bar"></div>
   </div>
+</div>
 
-  <div id="game-container">
-    <ruffle-player id="player" data-autoplay="true">
-      <source src="jacksmith_v2.swf" type="application/x-shockwave-flash" />
-    </ruffle-player>
-  </div>
+<!-- IMPORTANT: THIS LOADS THE GAME -->
+<ruffle-player id="player" autoplay="on">
+  <source src="jacksmith_v2.swf" type="application/x-shockwave-flash">
+</ruffle-player>
 
-  <script>
-    // Fake Unity-style loading bar
-    let pct = 0;
-    const bar = document.getElementById("bar");
-    const loadingScreen = document.getElementById("loading-screen");
+<script>
+  /* Fake Unity-style loading bar */
+  let pct = 0;
+  let bar = document.getElementById("bar");
+  let loading = document.getElementById("loading-screen");
 
-    let interval = setInterval(() => {
-      pct += Math.random() * 10;
-      if (pct > 100) pct = 100;
-      bar.style.width = pct + "%";
-      if (pct >= 100) {
-        clearInterval(interval);
-        setTimeout(() => {
-          loadingScreen.style.display = "none";
-        }, 300);
-      }
-    }, 150);
-  </script>
+  let interval = setInterval(() => {
+    pct += Math.random() * 15;
+    if (pct > 100) pct = 100;
+    bar.style.width = pct + "%";
+
+    if (pct >= 100) {
+      clearInterval(interval);
+      setTimeout(() => {
+        loading.style.display = "none";
+      }, 400);
+    }
+  }, 150);
+</script>
+
 </body>
 </html>
